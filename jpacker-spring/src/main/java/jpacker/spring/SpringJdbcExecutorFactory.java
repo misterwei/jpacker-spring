@@ -19,7 +19,7 @@ public class SpringJdbcExecutorFactory extends JdbcExecutorFactory{
 			log.debug("Returns a new SpringJdbcExecutor");
 			JdbcExecutor jdbc = new SpringJdbcExecutor();
 			
-			jdbc.init(cm,config.getTableFactory(),config.getLocalExecutor());
+			jdbc.init(config);
 			return jdbc;
 		} catch (Exception e) {
 			log.error("instance error",e);
