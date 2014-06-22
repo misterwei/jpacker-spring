@@ -6,7 +6,7 @@ import java.util.List;
 
 
 /**
- * 分页对象.包含数据及分页信??. (copy from springside)
+ * 分页对象.包含数据及分页信 (copy from springside)
  * 
  * @author Sam
  */
@@ -28,7 +28,7 @@ public final class Page<T> implements Serializable {
 	public static final Page EMPTY_PAGE = new Page();
 
 	/**
-	 * 当前页第�?��数据的位置，0
+	 * 当前页数据的位置，0
 	 */
 	private int startIndex;
 
@@ -38,7 +38,7 @@ public final class Page<T> implements Serializable {
 	private int pageSize = 6;
 
 	/**
-	 * 当前页中存放的记�?
+	 * 当前页中存放的记
 	 */
 	private List<T> data;
 
@@ -47,10 +47,6 @@ public final class Page<T> implements Serializable {
 	 */
 	private long rows;
 	
-
-	/**
-	 * 构�?方法，只构�?�?
-	 */
 	public Page() {
 		this(0, 0, 10, Collections.<T> emptyList());
 	}
@@ -58,9 +54,9 @@ public final class Page<T> implements Serializable {
 	/**
 	 * 
 	 * @param startIndex  本页数据在数据库中的起始位置
-	 * @param rows 数据库中总记录条�?
+	 * @param rows 数据库中总记录条
 	 * @param pageSize 本页容量
-	 * @param data 本页包含的数�?
+	 * @param data 本页包含的数
 	 */
 	public Page(int startIndex, long rows, int pageSize, List<T> data) {
 		this.pageSize = pageSize;
@@ -77,7 +73,7 @@ public final class Page<T> implements Serializable {
 	}
 
 	/**
-	 * 取�?共页�?
+	 * 共几页
 	 */
 	public int getPages() {
 		if (rows % pageSize == 0) {
@@ -88,7 +84,7 @@ public final class Page<T> implements Serializable {
 	}
 
 	/**
-	 * 取每页数据容�?
+	 * 取每页数据数
 	 */
 	public int getPageSize() {
 		return pageSize;
@@ -108,14 +104,14 @@ public final class Page<T> implements Serializable {
 	}
 	
 	/**
-	 * 是否有下�?��
+	 * 是否有下一页
 	 */
 	public boolean getHasNextPage() {
 		return this.getPageNo() < this.getPages();
 	}
 
 	/**
-	 * 是否有上�?��
+	 * 是否有上一页
 	 */
 	public boolean getHasPreviousPage() {
 		return (this.getPageNo() > 1);

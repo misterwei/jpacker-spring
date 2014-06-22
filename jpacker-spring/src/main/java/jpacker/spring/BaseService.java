@@ -2,6 +2,8 @@ package jpacker.spring;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.annotation.Resource;
 
@@ -52,7 +54,8 @@ public class BaseService {
 	}
 	
 	public <T> Page<T> pageQuery(Class<T> type,String sql,int pageNo,int pageSize, SqlParameters parameters) throws SQLException{
-		String countSql = new StringBuilder("select count(*) from (").append(sql).append(") as temp_count_table").toString();
+		String removeOrderbySql = removeOrders(sql);
+		String countSql = new StringBuilder("select count(*) from (").append(removeOrderbySql).append(") as temp_count_table").toString();
 		JdbcExecutor jdbc = getJdbcExecutor();
 		try{
 			int count = jdbc.queryOne(Integer.class, countSql, parameters);
@@ -70,6 +73,19 @@ public class BaseService {
 		}
 		
 	}
+	
+	private static String removeOrders(String sql) {
+      Pattern p = Pattern.compile("order\\s+by(\\s*\\,?\\s*[\\w\\._-]+\\s*(desc|asc)?)+\\s*", 
+          Pattern.CASE_INSENSITIVE);
+      Matcher m = p.matcher(sql);
+      StringBuffer sb = new StringBuffer();
+      while (m.find()) {
+          m.appendReplacement(sb, "");
+      }
+      m.appendTail(sb);
+      return sb.toString();
+	}
+	
 	
 	public Object getCacheValue(String name,String key){
 		Cache cache = cacheManager.getCache(name);

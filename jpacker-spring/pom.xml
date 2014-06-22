@@ -3,9 +3,12 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>jpacker</groupId>
   <artifactId>jpacker-spring</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>0.0.2</version>
   <name>jpacker-spring</name>
   
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
   
   <dependencies>
   
@@ -45,6 +48,13 @@
 	  <artifactId>c3p0</artifactId>
 	  <version>0.9.1.2</version>
 	</dependency>
+	
+	 <dependency>
+		<groupId>jpacker</groupId>
+		<artifactId>jpacker</artifactId>
+		<version>0.0.2</version>
+	</dependency>
+	
   </dependencies>
   
 </project>
