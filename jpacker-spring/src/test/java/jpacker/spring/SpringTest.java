@@ -1,30 +1,28 @@
 package jpacker.spring;
 
-import jpacker.local.MSSQL2005Executor;
-import junit.framework.TestCase;
+import javax.annotation.Resource;
 
-import com.mchange.v2.c3p0.ComboPooledDataSource;
+import jpacker.spring.test.model.TestModel;
+import jpacker.spring.test.service.TestService;
 
-public class SpringTest extends TestCase{
+import org.junit.Test;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
+
+@ContextConfiguration({"classpath*:application-*.xml","classpath*:spring/application-*.xml"})
+public class SpringTest extends AbstractJUnit4SpringContextTests{
 	
+	@Resource(name="testService")
+	private TestService test;
 	
+	@Test
 	public void testSpringFactory() throws Exception{
-		ComboPooledDataSource cpds =  new ComboPooledDataSource();
-		cpds.setDriverClass("net.sourceforge.jtds.jdbc.Driver");
-		cpds.setUser("sa");
-		cpds.setPassword("123456");
-		cpds.setJdbcUrl("jdbc:jtds:sqlserver://127.0.0.1:1433/ivrdb");
-		cpds.setMinPoolSize(20);
-		cpds.setMaxPoolSize(100);
-		cpds.setMaxStatements(500);
-		cpds.setCheckoutTimeout(1800);
-		
-		JdbcExecutorFactoryBean fb = new JdbcExecutorFactoryBean();
-		fb.setDataSource(cpds);
-		fb.setDirectoryLocations(new String[]{"classpath:jpacker/"});
-		fb.setLocalExecutor(new MSSQL2005Executor());
-		
-		fb.afterPropertiesSet();
-		
+		test.save("abc", "def");
+	}
+	
+	@Test
+	public void testGet() throws Exception{
+		TestModel m = test.get(2);
+		m.getTestArray();
 	}
 }

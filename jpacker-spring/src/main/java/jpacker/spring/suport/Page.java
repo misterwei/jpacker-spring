@@ -1,4 +1,4 @@
-package jpacker.spring;
+package jpacker.spring.suport;
 
 import java.io.Serializable;
 import java.util.Collections;
@@ -21,11 +21,6 @@ public final class Page<T> implements Serializable {
    * 第一页的索引
    */
   public static final int FIRST_PAGE_INDEX = 1;
-
-	/**
-	 * 空Page对象.
-	 */
-	public static final Page EMPTY_PAGE = new Page();
 
 	/**
 	 * 当前页数据的位置，0

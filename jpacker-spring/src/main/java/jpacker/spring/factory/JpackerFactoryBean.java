@@ -1,4 +1,4 @@
-package jpacker.spring;
+package jpacker.spring.factory;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -7,7 +7,7 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import jpacker.factory.Configuration;
-import jpacker.factory.JdbcExecutorFactory;
+import jpacker.factory.JpackerFactory;
 import jpacker.local.LocalExecutor;
 
 import org.springframework.beans.factory.FactoryBean;
@@ -15,24 +15,24 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.util.Assert;
 
-public class JdbcExecutorFactoryBean implements FactoryBean<JdbcExecutorFactory> , InitializingBean{
+public class JpackerFactoryBean implements FactoryBean<JpackerFactory> , InitializingBean{
 
 	private String[] directoryLocations;
 	
-	private JdbcExecutorFactory factory;
+	private JpackerFactory factory;
 	
 	private DataSource dataSource;
 	
 	private LocalExecutor localExecutor;
 	
 	@Override
-	public JdbcExecutorFactory getObject() throws Exception {
+	public JpackerFactory getObject() throws Exception {
 		return factory;
 	}
 
 	@Override
-	public Class<JdbcExecutorFactory> getObjectType() {
-		return JdbcExecutorFactory.class;
+	public Class<JpackerFactory> getObjectType() {
+		return JpackerFactory.class;
 	}
 
 	@Override
@@ -76,8 +76,8 @@ public class JdbcExecutorFactoryBean implements FactoryBean<JdbcExecutorFactory>
 			}
 		}
 		
-		Configuration cfg = new Configuration(dataSource, clazzs, localExecutor,SpringJdbcExecutor.class);
-		factory = new SpringJdbcExecutorFactory(cfg);
+		Configuration cfg = new Configuration(dataSource, clazzs, localExecutor);
+		factory = new SpringJpackerFactory(cfg);
 	}
 
 	public void setDirectoryLocations(String[] res){

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+    
+	<!-- 属性文件读入 -->
+	<bean id="propertyConfigurer"
+		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath*:init.properties</value>
+			</list>
+		</property>
+	</bean>
+
+	<bean id="dataSource"
+		class="com.mchange.v2.c3p0.ComboPooledDataSource"
+		destroy-method="close">
+		<property name="driverClass">
+			<value>${jdbc.driverClassName}</value>
+		</property>
+		<property name="jdbcUrl">
+			<value>${jdbc.url}</value>
+		</property>
+		<property name="user">
+			<value>${jdbc.username}</value>
+		</property>
+		<property name="password">
+			<value>${jdbc.password}</value>
+		</property>
+		<property name="initialPoolSize">
+			<value>${pool.initialPoolSize}</value>
+		</property>
+		<property name="maxPoolSize">
+			<value>${pool.maxPoolSize}</value>
+		</property>
+		<property name="idleConnectionTestPeriod">
+			<value>${pool.testPeriod}</value>
+		</property>
+		<property name="automaticTestTable">
+			<value>${pool.testTable}</value>
+		</property>
+	</bean>
+
+	<bean id="JpackerFactoryBean" class="jpacker.spring.factory.JpackerFactoryBean">
+		<property name="directoryLocations">
+			<list>
+				<value>classpath:jpacker/spring/test/model</value>
+			</list>
+		</property>
+		<property name="dataSource" ref="dataSource"></property>
+		<property name="localExecutor" ref="localExecutor"></property>
+	</bean>
+	
+	<bean id="localExecutor" class="jpacker.local.MSSQL2005Executor"></bean>
+	
+	<bean id="jpackerTemplate" class="jpacker.spring.template.JpackerTemplate">
+		<property name="jpackerFactory" ref="JpackerFactoryBean"></property>
+	</bean>
+
+	<bean id="testService" class="jpacker.spring.test.service.TestService">
+		<property name="jpacker" ref="jpackerTemplate"></property>
+	</bean>
+</beans>
